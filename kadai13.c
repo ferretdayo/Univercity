@@ -243,6 +243,7 @@ int main(){
 
                 if(no==0){
 			puts("[終了]");
+			exit(1);
                         return 0;
                 }
 
