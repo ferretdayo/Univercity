@@ -335,7 +335,7 @@ int main(){
 			printf("結果\n");
 			while(p!=NULL){
 				printf("\t%s\t%c\t%d\t%d\t%d\t%d\t%d\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl);
-                 	　      fprintf(fp,"%s %c %d %d %d %d %d\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl);
+				fprintf(fp,"%s %c %d %d %d %d %d\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl);
 				p=p->next;
 			}
 			fclose(fp);
