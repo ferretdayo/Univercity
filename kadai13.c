@@ -241,7 +241,7 @@ int main(){
                 printf("コマンド>>");
                 scanf("%d",&no);
 
-                if(no==0){ 0;
+                if(no==0){
 			puts("[終了]");
                         return 0;
                 }
