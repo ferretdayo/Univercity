@@ -3,15 +3,15 @@
 #include <string.h>
 
 typedef struct person{
-        char        name[20];                //名前
-        char        sex;                        //性別
-        int        Japa;                        //国語
-        int        Math;                        //数学
-        int        Scie;                        //理科
-        int        Soci;                        //社会
-        int        Engl;                        //英語
-        double ave;                        //その人の平均点
-        struct person *next;        //次の構造体へのぽいんた
+        char name[20]; //名前
+        char sex; //性別
+        int Japa; //国語
+        int Math; //数学
+        int Scie; //理科
+        int Soci; //社会
+        int Engl; //英語
+        double ave; //その人の平均点
+        struct person *next; //次の構造体へのぽいんた
 }PERSON;
 
 typedef struct{
@@ -146,7 +146,7 @@ void up_ave(AVERAGE p,PERSON *s,int select,char sex){
                                 s = s->next;
                                 break;
                         default:
-                                main();                
+                                main();
                                 break;
                 }
         }
@@ -159,11 +159,11 @@ void screen(PERSON *p,int select,char name[],char sex){
         double Math=0,Japa=0,Scie=0,Soci=0,Engl=0,per=0;
         int count = 0;
         printf("\t名前\t性別\t国語\t算数\t理科\t社会\t英語\t平均点\n");
-        while(p!=NULL){                //表示
+        while(p!=NULL){ //表示
                 //名前検索
                 if(select==1){
                         if(strcmp(name,p->name)==0){
-                                average(p);                //その人の平均を計算
+                                average(p); //その人の平均を計算
                                 printf("\t%s\t%c\t%d\t%d\t%d\t%d\t%d\t%.2f\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl,p->ave);
                                 count++;
                         }
@@ -172,7 +172,7 @@ void screen(PERSON *p,int select,char name[],char sex){
                 //性別検索
                 }else if(select==2){
                         if(sex==p->sex){
-                                average(p);                //その人の平均を計算
+                                average(p); //その人の平均を計算
                                 printf("\t%s\t%c\t%d\t%d\t%d\t%d\t%d\t%.2f\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl,p->ave);
                                 //各教科の合計
                                 Math += p->Math;
@@ -187,7 +187,7 @@ void screen(PERSON *p,int select,char name[],char sex){
                                 p = p->next;
                 //すべて表示
                 }else if(select==0){
-                        average(p);                //その人の平均を計算
+                        average(p); //その人の平均を計算
                         printf("\t%s\t%c\t%d\t%d\t%d\t%d\t%d\t%.2f\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl,p->ave);
                         //各教科の合計
                         Math += p->Math;
@@ -209,7 +209,7 @@ void screen(PERSON *p,int select,char name[],char sex){
                         s.Engl = Engl/count;
                         s.ave = per/count;
                         printf("\t平均\t\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n",Japa/count,Math/count,Scie/count,Soci/count,Engl/count,per/count);
-                        up_ave(s,n,select,sex);        //平均以上の表示
+                        up_ave(s,n,select,sex); //平均以上の表示
                 }
         }else{
                 printf("%d\n",count);
@@ -221,33 +221,35 @@ void screen(PERSON *p,int select,char name[],char sex){
 
 int main(){
         int select;
-        int no;
+        int no,count;
         int flg=0;
-        char loadfile[20],name[10],sex;
-	char input_sex,input_name[10];
-	int input_Ja,input_Ma,input_Sc,input_So,input_En;
-        PERSON *first=NULL,*data,*p;
+        char loadfile[20],name[10],sex,deletename[10];
+        char input_sex,input_name[10];
+        int input_Ja,input_Ma,input_Sc,input_So,input_En;
+        PERSON *first=NULL,*data,*p,*del;
         FILE *fp;
 
         while(1){
                 no=-1;
                 select = -1;
+		    count = 0;
                 puts("------------Menu-----------");
                 puts("1. データ読み取り");
                 puts("2. 一覧表示");
-		puts("3. データの追加");
+                puts("3. データの追加");
+		    puts("4. データの削除");
                 puts("0. 終了");
                 puts("---------------------------");
                 printf("コマンド>>");
                 scanf("%d",&no);
 
                 if(no==0){
-			puts("[終了]");
-			exit(1);
+                        puts("[終了]");
+				exit(1);
                         return 0;
                 }
 
-                if(no!=1&&no!=2&&no!=3){
+                if(no!=1&&no!=2&&no!=3&&no!=4){
                         printf("1,2,3,0の中から入力してください\n");
                         continue;
                 }
@@ -264,10 +266,10 @@ int main(){
                         //リストの作成
                         makelist(data,first,fp);
                         printf("ファイル%sからデータを読み込みました。\n",loadfile);
-                        flg=1;                        //読み込みしたのでflgを1にする
+                        flg=1; //読み込みしたのでflgを1にする
                         fclose(fp);
                 }else if(no==2&&flg==1){
-                        p = first->next;                //最初は空なので、次のポインタから始める
+                        p = first->next; //最初は空なので、次のポインタから始める
                         while(select!=0&&select!=1&&select!=2){
                                 puts("------------subMenu-----------");
                                 puts("0. すべて表示");
@@ -286,23 +288,59 @@ int main(){
                                 scanf("%*c%c",&sex);
                         }
                         //内容の表示する関数screenの呼出
-                        screen(p,select,name,sex);        
+                        screen(p,select,name,sex);
                         continue;
                 }else if(flg==0){
                         puts("データの読み込みを先にしてください");
-                }else if(no==3&&flg==1){		//データの追加
-			if((fp=fopen(loadfile,"a"))==NULL){
-				printf("ファイルが見つかりません\n");
-				exit(1);
+                }else if(no==3&&flg==1){                //データの追加
+                        if((fp=fopen(loadfile,"a"))==NULL){
+                                printf("ファイルが見つかりません\n");
+                                exit(1);
+                        }
+                        printf("データ追加(名前　性別　国語の点　算数の点　理科の点　社会の点　英語の点)\n");
+                        printf("input(name sex Japanese....)>>");
+                        scanf("%s %*c%c %d %d %d %d %d",input_name,&input_sex,&input_Ja,&input_Ma,&input_Sc,&input_So,&input_En);
+                        fprintf(fp,"%s %c %d %d %d %d %d\n",input_name,input_sex,input_Ja,input_Ma,input_Sc,input_So,input_En);
+                        fclose(fp);
+                        flg=0;
+                }else if(no==4&&flg==1){
+                        if((fp=fopen(loadfile,"w"))==NULL){
+                                printf("ファイルが見つかりません\n");
+                                exit(1);
+                        }
+			p = first->next;
+			while(p!=NULL){
+				printf("\t%s\t%c\t%d\t%d\t%d\t%d\t%d\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl);
+				p=p->next;
 			}
-			printf("データ追加(名前　性別　国語の点　算数の点　理科の点　社会の点　英語の点)\n");
-			printf("input(name sex Japanese....)>>");
-			scanf("%s %*c%c %d %d %d %d %d",input_name,&input_sex,&input_Ja,&input_Ma,&input_Sc,&input_So,&input_En);
-			fprintf(fp,"%s %c %d %d %d %d %d\n",input_name,input_sex,input_Ja,input_Ma,input_Sc,input_So,input_En);
+			printf("削除したいデータはどれですか？\n");
+			printf("name >> ");
+			scanf("%s",deletename);
+			p = first -> next;
+			del = first;
+			while(p!=NULL){		//消す作業
+				if(strcmp(deletename,p->name)==0){
+					del -> next = p -> next;
+					free(p);	//要らないところを削除
+					count++;
+				}
+				del = del->next;
+				p = p->next;
+			}
+			if(count==0){
+				printf("%sが存在しません。\n",deletename);
+				continue;
+			}
+			p = first->next;
+			printf("結果\n");
+			while(p!=NULL){
+				printf("\t%s\t%c\t%d\t%d\t%d\t%d\t%d\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl);
+                 	　      fprintf(fp,"%s %c %d %d %d %d %d\n",p->name,p->sex,p->Japa,p->Math,p->Scie,p->Soci,p->Engl);
+				p=p->next;
+			}
 			fclose(fp);
-			flg=0;
-		}
-			  
-        }
+		}		
+                        
+    	}
         return 0;
 }
