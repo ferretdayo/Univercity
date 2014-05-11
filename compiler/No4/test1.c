@@ -31,9 +31,9 @@ char yytext[BUF_MAX];
 int n_processed;	//今どこまで見ているかの変数
 int n_total;		//トータルの文字列の数
 
-int ns_table[10][15] = {
+int ns_table[ROW_MAX][COL_MAX] = {
 	//          0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,   13,  14
-	/*        a-z,   0, 1-9,空白,改行,   i,   n,   t,   f,  !i, !n!f, !t,   他,受理系,マーカ */
+	/*        a-z,   0, 1-9, 空白,改行,  i,   n,   t,   f,   !i,n!f!,  !t,  他,受理系,マーカ */
 	/*0*/	{S_UD,S_3 ,S_2 ,S_4 ,S_5 ,S_6 ,S_UD,S_UD,S_UD,S_1 ,S_UD,S_UD,S_UD,F_NO ,M_UD },
 	/*1*/	{S_1 ,S_1 ,S_1 ,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,F_YES,M_ID },
 	/*2*/	{S_UD,S_2 ,S_2 ,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,S_UD,F_YES,M_NUM},
