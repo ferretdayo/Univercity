@@ -18,6 +18,7 @@
 #define M_SPC 2
 #define M_NL 3
 #define M_INT 4
+#define M_IF 5
 #define F_NO 0
 #define F_YES 1
 
@@ -26,7 +27,7 @@ char yytext[BUF_MAX];
 int n_processed;
 int n_total;
 
-int ns_table[6][8] = {
+int ns_table[ROW_MAX][COL_MAX] = {
 	{S_1 ,S_3 ,S_2 ,S_4 ,S_5 ,S_UD,F_NO ,M_UD },
 	{S_1 ,S_1 ,S_1 ,S_UD,S_UD,S_UD,F_YES,M_ID },
 	{S_UD,S_2 ,S_2 ,S_UD,S_UD,S_UD,F_YES,M_NUM},
@@ -78,9 +79,14 @@ int algorithm2_2(char str[]){
 	}
 	strncpy(yytext,str,i_final);
 	yytext[i_final] = '\0';
-	//yytextが"int"の場合とそうでない場合
-	if(strcmp(yytext,"int") == 0){
-		return M_INT;
+	if(marker(q_final) == M_ID){	//IDだった場合
+		if(strcmp(yytext,"int") == 0){	//yytextが"int"の場合
+			return M_INT;
+		}else if(strcmp(yytext,"if") == 0){	//yytextが"if"の場合
+			return M_IF;
+		}else{						//ID以外の場合
+			return marker(q_final);
+		}
 	}else{
 		return marker(q_final);
 	}
@@ -128,6 +134,9 @@ int main(){
 				break;
 			case M_INT:
 				printf("INT : [%s]\n",yytext);
+				break;
+			case M_IF:
+				printf("IF : [%s]\n",yytext);
 				break;
 			default:
 				printf("lexical error : [%s]\n",yytext);
